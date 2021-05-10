@@ -1,4 +1,4 @@
-import logo from './akka.png';
+import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
                     Login application. 
                 </p> 
                 <a className = "App-link"
-                href = "https://reactjs.org"
+                href = "https://github.com/SalaheddineEtangi/login-front"
                 target = "_blank"
                 rel = "noopener noreferrer" >
                     Get source code 
