@@ -1,55 +1,39 @@
 import React, {Component} from 'react';
-import UsersList from '../../components/UsersList'
+import UsersList from '../../components/UsersList';
+import Loader from '../../components/Loader';
+import { API_URL } from '../../config';
 
 class Users extends Component {
     state = {
-        collectionName: "",
-        collection: [],
+        users: [],
         isFetching: false
     }
 
-    onUserInputChange = e => {
+    componentDidMount() {
         this.setState({
-            collectionName: e.target.value,
             isFetching: true
         })
-        fetch(`http://localhost:52935/${e.target.value}`)
+        fetch(`${API_URL}/users`)
         .then(response => response.json())
         .then(json => this.setState(
             {
-                collection: json.items,
+                users: json.items,
                 isFetching: false
             }));
     }
 
     render(){
-        const {collectionName, collection, isFetching} = this.state;
+        const {isFetching} = this.state;
 
         return(
             <div>
-                <div>
-                    <input
-                        value={this.state.collectionName} 
-                        type="text" 
-                        onChange={this.onUserInputChange}
-                    />
-                </div>
                 {
-                    collection.length === 0 && collectionName.trim() === ''
-                    &&
-                    <p>Entrez le nom de la collection ?</p>
+                    isFetching
+                    && <Loader />
                 }
                 {
-                    !isFetching && collection.length === 0 && collectionName.trim() !== ''
-                    &&
-                    <p>Il n y a pas de collections avec ce nom ?</p>
-                }
-                {
-                    isFetching && collectionName.trim() !== '' 
-                    && <p>Chargement...</p>
-                }
-                {
-                    !isFetching && <UsersList list={this.state.collection}/>
+                    !isFetching 
+                    && <UsersList list={this.state.users}/>
                 }
             </div>
         )
