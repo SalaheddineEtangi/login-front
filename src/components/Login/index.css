@@ -1,0 +1,25 @@
+.Login-note {
+    font-size: 15px;
+    color: #878787;
+    padding: 5px 0 10px;
+  }
+
+.Login {
+    max-width: 35rem;
+    max-height: 35rem;
+    margin: 3rem auto;
+  }
+
+.Login-link {
+    color: #096ec8;
+    text-decoration: none;
+  }
+
+img {
+    height: 80px;
+    pointer-events: none;
+  }
+
+  .Login-logo {
+    text-align: center
+  }

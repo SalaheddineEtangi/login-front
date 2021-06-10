@@ -2,13 +2,15 @@ import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Users from '../../containers/Users';
 import SingleUser from '../../containers/SingleUser';
-import AlreadyClient from '../Forms/AlreadyClient';
+import Login from '../Login';
+import ForgotPassword from '../ForgotPassword'
 
 const Main = props => (
     <Switch>
-        <Route exact path="/" component={AlreadyClient} />
+        <Route exact path="/" component={Login} />
         <Route path="/users" component={Users} />
         <Route path="/users/:id" component={SingleUser} />
+        <Route path="/forgotPassword" component={ForgotPassword} />
     </Switch>
 );
 
