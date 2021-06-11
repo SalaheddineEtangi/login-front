@@ -4,17 +4,32 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {Link} from 'react-router-dom';
-import useForm from '../../UseForm'
-import Logo from '../../Logo'
-import Note from '../../Note'
+import useForm from '../UseForm'
+import Logo from '../Logo'
+import Note from '../Note'
 import './index.css'
 
 const initialFieldValues = {
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
 }
 
-const Login = ({classes, ...props}) => {
+const PwdSecRules = () => {
+    return(
+        <div className="pwdSecRules">
+            Sécurité<br/><br/>
+
+            Pour votre sécurité, utilisez un mot de passe contenant :<br/>
+            1 lettre minuscule<br/>
+            1 lettre majuscule<br/>
+            1 chiffre<br/>
+            entre 8 et 32 caractères
+        </div>
+    )
+}
+
+const Signup = () => {
 
     const {
         values,
@@ -22,21 +37,22 @@ const Login = ({classes, ...props}) => {
         handleInputChange,
         errors, 
         setErrors,
-        validate
+        validate, 
+        showPwdSecRules
     } = useForm(initialFieldValues)
 
     const handleSubmit = () => {}
 
     const emailErrors = errors.emailRequired || errors.emailFormat
-    const passwordErrors = errors.passwordRequired || errors.passwordFormat
+    const passwordErrors = errors.passwordRequired || errors.passwordSignUpFormat
 
     return(
         <div>
-            <div className="loginForm">
+            <div className="signUpForm">
                 <Logo />
                 <form autoComplete="off" noValidate onSubmit={handleSubmit}>
                     <legend>
-                        <span>Déjà client ?</span>
+                        <span>Nouveau client ?</span>
                     </legend>
                     <Grid container>
                         <div className="textField">
@@ -77,36 +93,51 @@ const Login = ({classes, ...props}) => {
                                 }}
                             />
                         </div>
-                        <div className="forgotPwd">
-                            <Link to={'/forgotPassword'} className="Login-link">
-                                Mot de passe oublié ?
-                            </Link>
+                        {showPwdSecRules && <PwdSecRules />}
+                        <div className="textField">
+                            <TextField
+                            type="password"
+                            name="confirmPassword"
+                            variant="outlined"
+                            label="Confirmer mot de passe"
+                            value={values.confirmPassword}
+                            onChange={handleInputChange}
+                            //{...(passwordErrors && {error:true, helperText: passwordErrors})}
+                            fullWidth={true}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <LockOutlinedIcon />
+                                    </InputAdornment>
+                                )
+                                }}
+                            />
                         </div>
-                        <div className="loginButtonDiv">
+                        <div>
                             <Button
                             variant="contained"
                             color="primary"
                             className="button"
                             type="submit"
                             >
-                                Se connecter
+                                Créer un compte
                             </Button>            
                         </div>
                     </Grid>
                 </form>
             </div>
-            <div className="loginSignup">
+            <div className="signUpToLogin">
                 <legend>
-                    <span>Nouveau client ?</span>
+                    <span>Déjà client ?</span>
                 </legend>   
-                <div className="loginButtonDiv">
-                    <Link to={'/Signup'} className="signupLink">
+                <div>
+                    <Link to={'/'} className="linkButton">
                         <Button
                         variant="outlined"
                         color="primary"
                         className="button"
                         >
-                            Créer un compte
+                            Se connecter
                         </Button>  
                     </Link>          
                 </div>             
@@ -116,4 +147,4 @@ const Login = ({classes, ...props}) => {
     )
 }
 
-export default Login
+export default Signup

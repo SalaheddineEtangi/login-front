@@ -1,0 +1,23 @@
+.signUpForm {
+    width: 34rem;
+    margin: 2rem auto;
+    margin-bottom: 2px;
+    justify-content: center;
+    background-color: white;
+    padding: 30px 22px 30px 20px;
+  }
+
+  .signUpToLogin {
+    padding: 30px 22px 30px 20px;
+    background-color: #f7f7f7;
+    width: 34rem;
+    margin: auto;
+  }
+
+  .linkButton {
+    text-decoration: none;
+  }
+
+  .pwdSecRules {
+      margin-bottom: 2rem;
+  }

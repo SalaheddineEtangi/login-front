@@ -1,0 +1,15 @@
+.forgotPwdForm {
+    width: 34rem;
+    margin: 2rem auto;
+    margin-bottom: 2px;
+    justify-content: center;
+    background-color: white;
+    padding: 30px 22px 30px 20px;
+  }
+
+  .backToLogin {
+      text-align: center;
+      text-decoration: none;
+      color: #096ec8;
+      font-size: 20px;
+  }
