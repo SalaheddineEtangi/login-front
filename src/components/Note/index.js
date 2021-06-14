@@ -7,7 +7,8 @@ const Note = () => {
             suivant : <a 
                         className = "Login-link" 
                         href = "https://www.cdiscount.com/vie-privee-et-cookies.html?_ga=2.65595630.172947752.1621265546-518456721.1621265546" 
-                        target = "_blank">
+                        target = "_blank"
+                        rel="noreferrer">
                         Protection de vos données personnelles
                         </a> 
         </div>

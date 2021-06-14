@@ -18,11 +18,8 @@ const Login = ({classes, ...props}) => {
 
     const {
         values,
-        setValues,
         handleInputChange,
         errors, 
-        setErrors,
-        validate
     } = useForm(initialFieldValues)
 
     const handleSubmit = () => {}
@@ -85,7 +82,7 @@ const Login = ({classes, ...props}) => {
                         <div>
                             <Button
                             variant="contained"
-                            color="primary"
+                            style={{color: 'white', backgroundColor: 'rgb(44, 176, 74)'}}
                             className="button"
                             type="submit"
                             >
@@ -103,7 +100,7 @@ const Login = ({classes, ...props}) => {
                     <Link to={'/Signup'} className="linkButton">
                         <Button
                         variant="outlined"
-                        color="primary"
+                        style={{color: 'rgb(44, 176, 74)', backgroundColor: 'white', borderColor: 'rgb(44, 176, 74)'}}
                         className="button"
                         >
                             Créer un compte

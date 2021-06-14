@@ -3,12 +3,29 @@ import {Grid, TextField, Button} from '@material-ui/core'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import Logo from '../Logo'
+import useForm from '../UseForm'
 import './index.css'
 import { Link } from 'react-router-dom';
 
+const initialFieldValues = {
+    email: '',
+    password: '',
+    confirmPassword: ''
+}
+
 const ForgotPassword = () => {
 
+    const {
+        values,
+        handleInputChange,
+        errors
+    } = useForm(initialFieldValues)
+
     const handleSubmit = () => {}
+
+    const forgotPwdEmailFormat = errors.emailFormat ? 'Veuillez entrer un e-mail valide.' : ''
+
+    const emailErrors = errors.emailRequired || forgotPwdEmailFormat
 
     return(
         <div className="forgotPwdForm">
@@ -28,10 +45,10 @@ const ForgotPassword = () => {
                         name="email"
                         variant="outlined"
                         label="Email"
-                        /*value={values.email}
+                        value={values.email}
                         onChange={handleInputChange}
                         {...(emailErrors && {error:true, helperText: emailErrors})}
-                        fullWidth={true}*/
+                        fullWidth={true}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -44,7 +61,7 @@ const ForgotPassword = () => {
                     <div className="button">
                         <Button
                         variant="contained"
-                        color="primary"
+                        style={{color: 'white', backgroundColor: 'rgb(44, 176, 74)'}}
                         className="button"
                         type="submit"
                         >
