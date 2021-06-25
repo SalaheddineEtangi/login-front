@@ -1,0 +1,16 @@
+.bonjour{
+    font-size: 24px;
+}
+
+.content {
+    display: flex;
+    margin: 11rem;
+}
+
+.avatar{
+    width: 100px;
+}
+
+.bienvenue{
+    padding-top: 25px;
+}

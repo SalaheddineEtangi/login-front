@@ -1,27 +1,35 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
 import {Grid, TextField, Button} from '@material-ui/core'
-import InputAdornment from '@material-ui/core/InputAdornment';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import MailOutlineIcon from '@material-ui/icons/MailOutline'
+import * as actions from '../../actions/user'
 import Logo from '../Logo'
 import useForm from '../UseForm'
 import './index.css'
-import { Link } from 'react-router-dom';
 
 const initialFieldValues = {
-    email: '',
-    password: '',
-    confirmPassword: ''
+    email: ''
 }
 
-const ForgotPassword = () => {
+const ForgotPassword = props => {
 
     const {
         values,
         handleInputChange,
-        errors
+        errors, 
+        validate,
+        resetForm
     } = useForm(initialFieldValues)
 
-    const handleSubmit = () => {}
+    const handleSubmit = e => {
+        e.preventDefault()
+        if(validate()){
+            props.forgotPwd(values)
+            resetForm()
+        }
+    }
 
     const forgotPwdEmailFormat = errors.emailFormat ? 'Veuillez entrer un e-mail valide.' : ''
 
@@ -68,15 +76,23 @@ const ForgotPassword = () => {
                             Valider
                         </Button>            
                     </div>
-                    <div className="backToLogin">
-                        <Link to={'/'} className="backToLogin">
-                            Retour à la connexion
-                        </Link>
-                    </div>
                 </Grid>
             </form>
+            <div className="backToLogin">
+                <Link to={'/'} className="backToLogin">
+                    Retour à la connexion
+                </Link>
+            </div>
         </div>
     )
 }
 
-export default ForgotPassword
+const mapStateToProps = state => ({
+    usersList: state.user.users
+})
+
+const mapActionToProps = {
+    forgotPwd: actions.forgot
+}
+
+export default connect(mapStateToProps, mapActionToProps)(ForgotPassword)

@@ -1,10 +1,12 @@
-import React from 'react';
+import React from 'react'
+import {connect} from 'react-redux'
+import {Link, useHistory} from 'react-router-dom'
 import {Grid, TextField, Button} from '@material-ui/core'
-import InputAdornment from '@material-ui/core/InputAdornment';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import {Link, useHistory} from 'react-router-dom';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import MailOutlineIcon from '@material-ui/icons/MailOutline'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import * as actions from '../../actions/user'
 import useForm from '../UseForm'
 import Logo from '../Logo'
 import Note from '../Note'
@@ -16,7 +18,7 @@ const initialFieldValues = {
     confirmPassword: ''
 }
 
-const Signup = () => {
+const Signup = props => {
 
     const {
         values,
@@ -126,8 +128,8 @@ const Signup = () => {
     const handleSubmit = e => {
         e.preventDefault()
         if(validate()){
+            props.createAccount(values)
             history.push('/')
-            //props.createUser(props.usersList, values, onSuccess('Ajouté', 'success'))
         }
     }
 
@@ -234,4 +236,12 @@ const Signup = () => {
     )
 }
 
-export default Signup
+const mapStateToProps = state => ({
+    usersList: state.user.users
+})
+
+const mapActionToProps = {
+    createAccount: actions.createUser
+}
+
+export default connect(mapStateToProps, mapActionToProps)(Signup)

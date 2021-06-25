@@ -1,9 +1,11 @@
-import React from 'react';
+import React from 'react'
+import {Link, useHistory} from 'react-router-dom'
+import {connect} from 'react-redux'
 import {Grid, TextField, Button} from '@material-ui/core'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {Link} from 'react-router-dom';
+import * as actions from '../../actions/user'
 import useForm from '../UseForm'
 import Logo from '../Logo'
 import Note from '../Note'
@@ -14,15 +16,26 @@ const initialFieldValues = {
     password: ''
 }
 
-const Login = ({classes, ...props}) => {
+const Login = props => {
 
     const {
         values,
         handleInputChange,
         errors, 
+        validateLogin
     } = useForm(initialFieldValues)
 
-    const handleSubmit = () => {}
+    //test3@test.com
+    //Passw0rd
+
+    const history = useHistory()
+
+     const handleSubmit = e =>  {
+        e.preventDefault()
+        if(validateLogin()){
+            props.authenticateUser(values, () => history.push('/twoFactorsAuth'))       
+        }
+    }
 
     const emailErrors = errors.emailRequired || errors.emailFormat
     const passwordErrors = errors.passwordRequired || errors.passwordLoginFormat
@@ -73,7 +86,7 @@ const Login = ({classes, ...props}) => {
                                 )
                                 }}
                             />
-                        </div>
+                        </div>                     
                         <div className="forgotPwd">
                             <Link to={'/forgotPassword'} className="Login-link">
                                 Mot de passe oublié ?
@@ -113,4 +126,12 @@ const Login = ({classes, ...props}) => {
     )
 }
 
-export default Login
+const mapStateToProps = state => ({
+    usersList: state.user.users
+})
+
+const mapActionToProps = {
+    authenticateUser: actions.authenticate
+}
+
+export default connect(mapStateToProps, mapActionToProps)(Login)
