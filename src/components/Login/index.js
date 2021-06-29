@@ -25,7 +25,7 @@ const Login = props => {
         validateLogin
     } = useForm(initialFieldValues)
 
-    //test3@test.com
+    //test@test.com
     //Passw0rd
 
     const history = useHistory()
@@ -86,7 +86,13 @@ const Login = props => {
                                 )
                                 }}
                             />
-                        </div>                     
+                        </div>  
+                        {localStorage.getItem('connexionError') != null &&
+                        <p style={{color: 'rgb(255, 61, 0)'}}>
+                            <strong>{localStorage.getItem('connexionError')}</strong><br></br>
+                            Pour rappel, votre mot de passe contient au moins 8 caractères dont 1 minuscule, 1 majuscule et 1 chiffre.
+                        </p>
+                        }                   
                         <div className="forgotPwd">
                             <Link to={'/forgotPassword'} className="Login-link">
                                 Mot de passe oublié ?

@@ -42,8 +42,7 @@ const history = useHistory()
   const handleSubmit = e => {
     e.preventDefault()
     if(validate()){
-      props.createCustomer(values)
-      history.push('/clientSpace')
+      props.createCustomer(values, () => history.push('/clientSpace'))
     }
   }
 

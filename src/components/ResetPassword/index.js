@@ -27,8 +27,10 @@ const id = parseInt(localStorage.getItem('id'))
 
   const handleSubmit = e => {
     e.preventDefault()
-    props.resetPassword(id, values)
-    history.push('/passwordChanged')
+    props.resetPassword(id, values, () => history.push('/passwordChanged'))
+    localStorage.removeItem('id') 
+    localStorage.removeItem('email') 
+    localStorage.removeItem('resetPasswordToken')    
   }
 
   return (

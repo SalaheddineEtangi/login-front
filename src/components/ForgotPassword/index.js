@@ -20,14 +20,12 @@ const ForgotPassword = props => {
         handleInputChange,
         errors, 
         validate,
-        resetForm
     } = useForm(initialFieldValues)
 
     const handleSubmit = e => {
         e.preventDefault()
         if(validate()){
             props.forgotPwd(values)
-            resetForm()
         }
     }
 
@@ -66,6 +64,16 @@ const ForgotPassword = props => {
                             }}
                         />
                     </div>
+                    {localStorage.getItem('forgotPwdError') != null &&
+                        <p style={{color: 'rgb(255, 61, 0)'}}>
+                            {localStorage.getItem('forgotPwdError')}
+                        </p>
+                    } 
+                    {localStorage.getItem('forgotPwdSuccess') != null &&
+                        <p style={{color: 'rgb(44, 176, 74)'}}>
+                            {localStorage.getItem('forgotPwdSuccess')}
+                        </p>
+                    } 
                     <div className="button">
                         <Button
                         variant="contained"
@@ -79,7 +87,13 @@ const ForgotPassword = props => {
                 </Grid>
             </form>
             <div className="backToLogin">
-                <Link to={'/'} className="backToLogin">
+                <Link 
+                to={'/'} 
+                className="backToLogin"
+                onClick={() => {
+                    localStorage.removeItem('forgotPwdError')
+                    localStorage.removeItem('forgotPwdSuccess')
+                }}>
                     Retour à la connexion
                 </Link>
             </div>

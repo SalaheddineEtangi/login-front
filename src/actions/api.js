@@ -9,7 +9,8 @@ const api = {
             authenticate: user => axios.post(url + 'users/authenticate', user),
             forgot: user => axios.post(url + 'users/change-password', user),
             update: (id, updatedUser) => axios.put(url + 'users/set-new-password/' + id, updatedUser),
-            createCustomer: newCustomer => axios.post(url + 'customers/insert', newCustomer)
+            createCustomer: newCustomer => axios.post(url + 'customers/insert', newCustomer),
+            fetchCustomerById: id => axios.get(url + `customers/${id}`)
         }
     } 
 }

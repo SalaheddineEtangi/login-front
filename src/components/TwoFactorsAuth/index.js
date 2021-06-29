@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import {connect} from 'react-redux'
 import {Grid, TextField, Button} from '@material-ui/core'
+import * as actions from '../../actions/user'
 import Logo from '../Logo'
 import useForm from '../UseForm'
 import './index.css'
@@ -9,7 +11,9 @@ const initialFieldValues = {
     code: ''
 }
 
-const TwoFactorsAuth = () => {
+const TwoFactorsAuth = props => {
+
+    props.fetchCustomerById(parseInt(localStorage.getItem('id')))
 
     const {
         values,
@@ -23,7 +27,14 @@ const TwoFactorsAuth = () => {
     const handleSubmit = e => {
         e.preventDefault()
         if(values.code === localStorage.getItem('code')){
-            history.push('/clientAccount')
+            localStorage.setItem('token', localStorage.getItem('twoFactorsAuthToken'))
+            if(localStorage.getItem('firstName') !== null){
+                history.push('/clientSpace')
+            }
+            else{
+                history.push('/clientAccount')
+            }
+            localStorage.removeItem('twoFactorsAuthToken')
         }
         else{
             setErrors('Code de vérification erroné !')
@@ -65,7 +76,11 @@ const TwoFactorsAuth = () => {
                 </Grid>
             </form>
             <div className="backToLogin">
-                <Link to={'/'} className="backToLogin">
+                <Link 
+                to={'/'} 
+                className="backToLogin"
+                onClick={() => (localStorage.removeItem('twoFactorsAuthToken'))}
+                >
                     Retour à la connexion
                 </Link>
             </div>
@@ -73,4 +88,12 @@ const TwoFactorsAuth = () => {
     )
 }
 
-export default TwoFactorsAuth
+const mapStateToProps = state => ({
+    usersList: state.user.users
+})
+
+const mapActionToProps = {
+    fetchCustomerById: actions.fetchCustomerById
+}
+
+export default connect(mapStateToProps, mapActionToProps)(TwoFactorsAuth)

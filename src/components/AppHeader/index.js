@@ -14,6 +14,7 @@ const AppHeader = () => {
         localStorage.removeItem('id')
         localStorage.removeItem('email')
         localStorage.removeItem('token')
+        localStorage.removeItem('firstName')
         history.push('/')
       }
 

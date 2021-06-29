@@ -128,8 +128,7 @@ const Signup = props => {
     const handleSubmit = e => {
         e.preventDefault()
         if(validate()){
-            props.createAccount(values)
-            history.push('/')
+            props.createAccount(values, () => history.push('/'))           
         }
     }
 
@@ -203,6 +202,11 @@ const Signup = props => {
                                 }}
                             />
                         </div>
+                        {localStorage.getItem('accountCreationError') != null &&
+                        <p style={{color: 'rgb(255, 61, 0)'}}>
+                            {localStorage.getItem('accountCreationError')}
+                        </p>
+                        } 
                         <div>
                             <Button
                             className="button"

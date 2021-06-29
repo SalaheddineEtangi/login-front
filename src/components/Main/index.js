@@ -9,7 +9,9 @@ import ClientSpace from '../ClientSpace'
 import ResetPassword from '../ResetPassword'
 import PasswordChanged from '../PasswordChanged'
 import TwoFactorsAuth from '../TwoFactorsAuth'
-import {PrivateRoute} from '../PrivateRoute'
+import {ProtectedRoutes} from '../PrivateRoutes/protectedRoutes'
+import {TwoFactorsAuthRoute} from '../PrivateRoutes/twoFactorsAuthRoute'
+import {ResetPasswordRoute} from '../PrivateRoutes/resetPasswordRoute'
 
 const Main = props => (
     <Switch>
@@ -17,11 +19,11 @@ const Main = props => (
         <Route path="/Signup" component={Signup}></Route>
         <Route path="/users" component={Users} />
         <Route path="/forgotPassword" component={ForgotPassword} />
-        <PrivateRoute path="/clientAccount" component={ClientAccount} />
-        <PrivateRoute path="/clientSpace" component={ClientSpace} />
-        <Route path="/resetPassword" component={ResetPassword} />
+        <ProtectedRoutes path="/clientAccount" component={ClientAccount} />
+        <ProtectedRoutes path="/clientSpace" component={ClientSpace} />
+        <ResetPasswordRoute path="/resetPassword" component={ResetPassword} />
         <Route path="/passwordChanged" component={PasswordChanged} />
-        <Route path="/twoFactorsAuth" component={TwoFactorsAuth} />
+        <TwoFactorsAuthRoute path="/twoFactorsAuth" component={TwoFactorsAuth} />
     </Switch>
 );
 

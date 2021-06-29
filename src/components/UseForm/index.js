@@ -7,6 +7,8 @@ const useForm = (initialFieldValues) => {
     const [showPwdSecRules, setShowPwdSecRules] = useState(false)
 
     const handleInputChange = (e) => {
+        localStorage.removeItem('forgotPwdError')
+        localStorage.removeItem('forgotPwdSuccess')
         const {name, value} = e.target
         const fieldValue = {[name]: value}
         setValues({

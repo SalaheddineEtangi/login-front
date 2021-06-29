@@ -11,7 +11,7 @@ const ClientSpace = () => {
                     <img src="https://i2.cdscdn.com/resources/RWD/cz/Avatar.png" alt="account avatar"/>
                 </div>
                 <div className="bienvenue">
-                    <span className="bonjour">Bonjour <strong>Salah-eddine</strong></span>, Bienvenue parmi nos nouveaux clients
+                    <span className="bonjour">Bonjour <strong>{localStorage.getItem('firstName')}</strong></span>, Bienvenue parmi nos nouveaux clients
                 </div>
             </div>
         </div>
