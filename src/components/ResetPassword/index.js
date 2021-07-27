@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
@@ -6,6 +6,11 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import IconButton from '@material-ui/core/IconButton'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import * as actions from '../../actions/user'
 import clientAccountLogo from '../../assets/cdiscount_logo.svg'
 import useForm from '../UseForm'
@@ -15,7 +20,10 @@ import './index.css'
     password: ''
 }
 
-const ResetPassword = props => {        
+const ResetPassword = props => {   
+  
+  const [showPassword, setShowPassword] = useState(false)
+
   const {
     values,
     handleInputChange,
@@ -32,6 +40,11 @@ const id = parseInt(localStorage.getItem('id'))
     localStorage.removeItem('email') 
     localStorage.removeItem('resetPasswordToken')    
   }
+
+  const handleClickShowPassword = () => {
+    if(showPassword === false) setShowPassword(true)
+    else setShowPassword(false)
+}
 
   return (
     <div>
@@ -50,12 +63,28 @@ const id = parseInt(localStorage.getItem('id'))
             </Typography>  
             <div id="lastField">       
                 <TextField                   
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     label="Nouveau mot de passe"
                     fullWidth
                     value={values.password}
                     onChange={handleInputChange}
+                    InputProps={{
+                      startAdornment: (
+                          <InputAdornment position="start">
+                              <LockOutlinedIcon />
+                          </InputAdornment>
+                      ),
+                      endAdornment: (
+                          <InputAdornment position="end">
+                              <IconButton
+                              onClick={handleClickShowPassword}
+                              >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                              </IconButton>
+                          </InputAdornment>
+                      )
+                  }}
                 />
             </div>
             <Button

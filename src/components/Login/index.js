@@ -1,10 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Grid, TextField, Button} from '@material-ui/core'
-import InputAdornment from '@material-ui/core/InputAdornment';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import MailOutlineIcon from '@material-ui/icons/MailOutline'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import IconButton from '@material-ui/core/IconButton'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import * as actions from '../../actions/user'
 import useForm from '../UseForm'
 import Logo from '../Logo'
@@ -18,15 +21,14 @@ const initialFieldValues = {
 
 const Login = props => {
 
+    const [showPassword, setShowPassword] = useState(false)
+
     const {
         values,
         handleInputChange,
         errors, 
         validateLogin
     } = useForm(initialFieldValues)
-
-    //test@test.com
-    //Passw0rd
 
     const history = useHistory()
 
@@ -35,6 +37,11 @@ const Login = props => {
         if(validateLogin()){
             props.authenticateUser(values, () => history.push('/twoFactorsAuth'))       
         }
+    }
+
+    const handleClickShowPassword = () => {
+        if(showPassword === false) setShowPassword(true)
+        else setShowPassword(false)
     }
 
     const emailErrors = errors.emailRequired || errors.emailFormat
@@ -70,7 +77,7 @@ const Login = props => {
                         </div>
                         <div className="textField">
                             <TextField
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             name="password"
                             variant="outlined"
                             label="Mot de passe"
@@ -83,8 +90,17 @@ const Login = props => {
                                     <InputAdornment position="start">
                                         <LockOutlinedIcon />
                                     </InputAdornment>
+                                ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        onClick={handleClickShowPassword}
+                                        >
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
                                 )
-                                }}
+                            }}
                             />
                         </div>  
                         {localStorage.getItem('connexionError') != null &&

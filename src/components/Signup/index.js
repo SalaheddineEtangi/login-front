@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, useHistory} from 'react-router-dom'
 import {Grid, TextField, Button} from '@material-ui/core'
@@ -6,6 +6,9 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import IconButton from '@material-ui/core/IconButton'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import * as actions from '../../actions/user'
 import useForm from '../UseForm'
 import Logo from '../Logo'
@@ -19,6 +22,9 @@ const initialFieldValues = {
 }
 
 const Signup = props => {
+
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     const {
         values,
@@ -132,6 +138,16 @@ const Signup = props => {
         }
     }
 
+    const handleClickShowPassword = () => {
+        if(showPassword === false) setShowPassword(true)
+        else setShowPassword(false)
+    }
+
+    const handleClickShowConfirmPassword = () => {
+        if(showConfirmPassword === false) setShowConfirmPassword(true)
+        else setShowConfirmPassword(false)
+    }
+
     const emailErrors = errors.emailRequired || errors.emailFormat
     const passwordErrors = errors.passwordRequired || errors.passwordSignUpFormat
 
@@ -165,7 +181,7 @@ const Signup = props => {
                         </div>
                         <div className="textField">
                             <TextField
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             name="password"
                             variant="outlined"
                             label="Mot de passe"
@@ -178,14 +194,23 @@ const Signup = props => {
                                     <InputAdornment position="start">
                                         <LockOutlinedIcon />
                                     </InputAdornment>
+                                ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        onClick={handleClickShowPassword}
+                                        >
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
                                 )
-                                }}
+                            }}
                             />
                         </div>
                         {showPwdSecRules && <PwdSecRules />}
                         <div className="textField">
                             <TextField
-                            type="password"
+                            type={showConfirmPassword ? 'text' : 'password'}
                             name="confirmPassword"
                             variant="outlined"
                             label="Confirmer mot de passe"
@@ -198,8 +223,17 @@ const Signup = props => {
                                     <InputAdornment position="start">
                                         <LockOutlinedIcon />
                                     </InputAdornment>
+                                ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        onClick={handleClickShowConfirmPassword}
+                                        >
+                                        {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
                                 )
-                                }}
+                            }}
                             />
                         </div>
                         {localStorage.getItem('accountCreationError') != null &&
