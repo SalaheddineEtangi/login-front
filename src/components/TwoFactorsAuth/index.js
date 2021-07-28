@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Grid, TextField, Button} from '@material-ui/core'
@@ -22,23 +22,19 @@ const TwoFactorsAuth = props => {
 
     const history = useHistory()
 
-    const [errors, setErrors] = useState('')
+    const onSuccess = () => {
+        if(localStorage.getItem('firstName') !== null){
+            history.push('/clientSpace')
+        }
+        else{
+            history.push('/clientAccount')
+        }
+        localStorage.removeItem('twoFactorsAuthToken')
+    }
 
     const handleSubmit = e => {
         e.preventDefault()
-        if(values.code === localStorage.getItem('code')){
-            localStorage.setItem('token', localStorage.getItem('twoFactorsAuthToken'))
-            if(localStorage.getItem('firstName') !== null){
-                history.push('/clientSpace')
-            }
-            else{
-                history.push('/clientAccount')
-            }
-            localStorage.removeItem('twoFactorsAuthToken')
-        }
-        else{
-            setErrors('Code de vérification erroné !')
-        }
+        props.verifyCode(values, () => onSuccess())
     }
 
     return(
@@ -54,13 +50,12 @@ const TwoFactorsAuth = props => {
                 <Grid container>
                     <div className="textField">
                         <TextField
-                        name="code"
+                        name="verification_code"
                         variant="outlined"
                         label="Code"
-                        value={values.code}
+                        value={values.verification_code}
                         onChange={handleInputChange}
                         fullWidth={true}
-                        {...(errors && {error:true, helperText: errors})}
                         />
                     </div>
                     <div className="button">
@@ -93,7 +88,8 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = {
-    fetchCustomerById: actions.fetchCustomerById
+    fetchCustomerById: actions.fetchCustomerById,
+    verifyCode: actions.verifyCode
 }
 
 export default connect(mapStateToProps, mapActionToProps)(TwoFactorsAuth)

@@ -6,10 +6,16 @@ export const ACTION_TYPES = {
     UPDATE: 'UPDATE',
     FORGOT: 'FORGOT',
     AUTHENTICATE: 'AUTHENTICATE',
+    VERIFY_CODE: 'VERIFY_CODE',
     FETCH_CUSTOMER_BY_ID: 'FETCH_CUSTOMER_BY_ID'
 }
 
 const formatData = data => {
+    if('verification_code' in data){
+        return {
+            verification_code: parseInt(data.verification_code)
+        }
+    }
     if('password' in data){
         if('email' in data){
             return {
@@ -74,7 +80,6 @@ export const authenticate = (data, onSuccess) => dispatch => {
                 localStorage.setItem('id', response.data.id)
                 localStorage.setItem('email', response.data.email)
                 localStorage.setItem('twoFactorsAuthToken', response.data.token)           
-                localStorage.setItem('code', response.data.code)
                 onSuccess()
             }       
         })
@@ -83,6 +88,23 @@ export const authenticate = (data, onSuccess) => dispatch => {
                 window.location.reload()
                 console.log(err)
             })
+}
+
+export const verifyCode = (data, onSuccess) => dispatch => {
+    data = formatData(data)
+    console.log(data)
+    api.user().verifyCode(data)
+        .then(response => {
+            dispatch({
+                type: ACTION_TYPES.VERIFY_CODE,
+                payload: response.data
+            })
+            if(response.status === 201){
+                localStorage.setItem('token', response.data.token)           
+                onSuccess()
+            } 
+        })
+        .catch(err => console.log(err))
 }
 
 export const forgot = (data) => dispatch => {
